@@ -1,0 +1,40 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+import { AllRamps, TokenTable } from "./TokenTable";
+
+<Meta title="Foundations/Base tokens" />
+
+# Base tokens
+
+The raw material. Every ramp is 12 steps; every step has a fixed job, so the same
+step number means the same thing in every hue.
+
+**Nothing outside `packages/tokens` may reference these.** Not recipes, not
+components, not app code. They exist to be pointed at by the semantic layer, which
+is the only tier with a public name. A primitive appearing in a recipe is a bug: it
+pins a value that a theme then can't move.
+
+Because the utilities are generated only from semantic tokens, this is enforced by
+the build rather than by review — `bg-blue-500` does not compile.
+
+<AllRamps />
+
+## Why 12 steps
+
+The step assignments come from Radix's scale semantics: 1–2 backgrounds, 3–5
+component backgrounds through their interaction states, 6–8 borders, 9–10 solid
+fills, 11–12 text. Every hue is built to the same shape, so a tone is fully
+described by "which ramp" — never by picking shades that happen to look right.
+
+That is also what makes a new tone cheap: one ramp in, and every component that
+already understands tones renders it correctly.
+
+## Adding a hue
+
+Today these are hand-written OKLCH approximations. The intended path is
+**generation**: one brand hex in, twelve perceptually-even steps out, with contrast
+relationships guaranteed rather than eyeballed. See **Foundations → Tones** for how
+a brand colour enters the system.
+
+## Non-colour primitives
+
+<TokenTable group="scale" />

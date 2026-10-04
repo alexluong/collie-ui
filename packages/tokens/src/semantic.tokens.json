@@ -1,0 +1,358 @@
+{
+  "$description": "The public API. Recipes may reference only these. Colour steps follow Radix's scale semantics.",
+  "color": {
+    "$type": "color",
+    "bg": {
+      "canvas": {
+        "$value": "{gray.1}",
+        "$description": "step 1 — app background"
+      },
+      "surface": {
+        "$value": "{gray.2}",
+        "$description": "step 2 — cards, panels"
+      },
+      "neutral": {
+        "subtle": {
+          "$value": "{gray.3}",
+          "$description": "step 3"
+        },
+        "subtle-hover": {
+          "$value": "{gray.4}",
+          "$description": "step 4"
+        },
+        "subtle-active": {
+          "$value": "{gray.5}",
+          "$description": "step 5"
+        },
+        "solid": {
+          "$value": "{gray.9}",
+          "$description": "step 9"
+        },
+        "solid-hover": {
+          "$value": "{gray.10}",
+          "$description": "step 10"
+        }
+      },
+      "accent": {
+        "subtle": {
+          "$value": "{blue.3}",
+          "$description": "step 3"
+        },
+        "subtle-hover": {
+          "$value": "{blue.4}",
+          "$description": "step 4"
+        },
+        "subtle-active": {
+          "$value": "{blue.5}",
+          "$description": "step 5"
+        },
+        "solid": {
+          "$value": "{blue.9}",
+          "$description": "step 9"
+        },
+        "solid-hover": {
+          "$value": "{blue.10}",
+          "$description": "step 10"
+        }
+      },
+      "critical": {
+        "subtle": {
+          "$value": "{red.3}",
+          "$description": "step 3"
+        },
+        "subtle-hover": {
+          "$value": "{red.4}",
+          "$description": "step 4"
+        },
+        "subtle-active": {
+          "$value": "{red.5}",
+          "$description": "step 5"
+        },
+        "solid": {
+          "$value": "{red.9}",
+          "$description": "step 9"
+        },
+        "solid-hover": {
+          "$value": "{red.10}",
+          "$description": "step 10"
+        }
+      },
+      "warning": {
+        "subtle": {
+          "$value": "{amber.3}",
+          "$description": "step 3"
+        },
+        "subtle-hover": {
+          "$value": "{amber.4}",
+          "$description": "step 4"
+        },
+        "subtle-active": {
+          "$value": "{amber.5}",
+          "$description": "step 5"
+        },
+        "solid": {
+          "$value": "{amber.9}",
+          "$description": "step 9"
+        },
+        "solid-hover": {
+          "$value": "{amber.10}",
+          "$description": "step 10"
+        }
+      },
+      "success": {
+        "subtle": {
+          "$value": "{green.3}",
+          "$description": "step 3"
+        },
+        "subtle-hover": {
+          "$value": "{green.4}",
+          "$description": "step 4"
+        },
+        "subtle-active": {
+          "$value": "{green.5}",
+          "$description": "step 5"
+        },
+        "solid": {
+          "$value": "{green.9}",
+          "$description": "step 9"
+        },
+        "solid-hover": {
+          "$value": "{green.10}",
+          "$description": "step 10"
+        }
+      },
+      "overlay": {
+        "$value": "{blackA.9}",
+        "$description": "scrim behind modal surfaces"
+      }
+    },
+    "fg": {
+      "default": {
+        "$value": "{gray.12}",
+        "$description": "step 12 — high-contrast text"
+      },
+      "muted": {
+        "$value": "{gray.11}",
+        "$description": "step 11 — low-contrast text"
+      },
+      "neutral": {
+        "$value": "{gray.11}",
+        "$description": "step 11 — text in this tone"
+      },
+      "on-neutral": {
+        "$value": "{white}",
+        "$description": "text on a solid neutral fill"
+      },
+      "accent": {
+        "$value": "{blue.11}",
+        "$description": "step 11 — text in this tone"
+      },
+      "on-accent": {
+        "$value": "{white}",
+        "$description": "text on a solid accent fill"
+      },
+      "critical": {
+        "$value": "{red.11}",
+        "$description": "step 11 — text in this tone"
+      },
+      "on-critical": {
+        "$value": "{white}",
+        "$description": "text on a solid critical fill"
+      },
+      "warning": {
+        "$value": "{amber.11}",
+        "$description": "step 11 — text in this tone"
+      },
+      "on-warning": {
+        "$value": "{gray.12}",
+        "$description": "amber's step 9 is light, so its solid fill needs dark text"
+      },
+      "success": {
+        "$value": "{green.11}",
+        "$description": "step 11 — text in this tone"
+      },
+      "on-success": {
+        "$value": "{white}",
+        "$description": "text on a solid success fill"
+      }
+    },
+    "border": {
+      "default": {
+        "$value": "{gray.7}",
+        "$description": "step 7 — borders, focus rings"
+      },
+      "subtle": {
+        "$value": "{gray.6}",
+        "$description": "step 6 — separators"
+      },
+      "hover": {
+        "$value": "{gray.8}",
+        "$description": "step 8"
+      },
+      "neutral": {
+        "$value": "{gray.7}",
+        "$description": "step 7"
+      },
+      "accent": {
+        "$value": "{blue.7}",
+        "$description": "step 7"
+      },
+      "critical": {
+        "$value": "{red.7}",
+        "$description": "step 7"
+      },
+      "warning": {
+        "$value": "{amber.7}",
+        "$description": "step 7"
+      },
+      "success": {
+        "$value": "{green.7}",
+        "$description": "step 7"
+      }
+    }
+  },
+  "space": {
+    "$type": "dimension",
+    "0": {
+      "$value": "0"
+    },
+    "50": {
+      "$value": "{scale.space.1}"
+    },
+    "100": {
+      "$value": "{scale.space.2}"
+    },
+    "150": {
+      "$value": "{scale.space.3}"
+    },
+    "200": {
+      "$value": "{scale.space.4}"
+    },
+    "300": {
+      "$value": "{scale.space.6}"
+    },
+    "400": {
+      "$value": "{scale.space.8}"
+    },
+    "600": {
+      "$value": "{scale.space.12}"
+    }
+  },
+  "radius": {
+    "$type": "dimension",
+    "sm": {
+      "$value": "0.25rem"
+    },
+    "md": {
+      "$value": "0.5rem"
+    },
+    "full": {
+      "$value": "9999px"
+    }
+  },
+  "font": {
+    "$type": "fontFamily",
+    "sans": {
+      "$value": "ui-sans-serif, system-ui, sans-serif"
+    },
+    "mono": {
+      "$value": "ui-monospace, SFMono-Regular, monospace"
+    }
+  },
+  "border-width": {
+    "$type": "dimension",
+    "default": {
+      "$value": "1px"
+    }
+  },
+  "border-style": {
+    "$type": "strokeStyle",
+    "default": {
+      "$value": "solid"
+    }
+  },
+  "shadow": {
+    "$type": "shadow",
+    "raised": {
+      "$value": "0 1px 2px 0 rgb(0 0 0 / 0.06)"
+    },
+    "overlay": {
+      "$value": "0 16px 48px -12px rgba(0, 0, 0, 0.25)"
+    }
+  },
+  "text": {
+    "$type": "dimension",
+    "xs": {
+      "$value": "0.75rem"
+    },
+    "sm": {
+      "$value": "0.875rem"
+    },
+    "md": {
+      "$value": "1rem"
+    },
+    "lg": {
+      "$value": "1.125rem"
+    },
+    "xl": {
+      "$value": "1.5rem"
+    },
+    "2xl": {
+      "$value": "2rem"
+    }
+  },
+  "leading": {
+    "$type": "number",
+    "tight": {
+      "$value": 1.25
+    },
+    "normal": {
+      "$value": 1.5
+    }
+  },
+  "weight": {
+    "$type": "fontWeight",
+    "regular": {
+      "$value": 400
+    },
+    "medium": {
+      "$value": 500
+    },
+    "strong": {
+      "$value": 600
+    }
+  },
+  "container": {
+    "$type": "dimension",
+    "sm": {
+      "$value": "30rem"
+    },
+    "md": {
+      "$value": "48rem"
+    },
+    "lg": {
+      "$value": "64rem"
+    },
+    "xl": {
+      "$value": "80rem"
+    }
+  },
+  "button": {
+    "$description": "Component-tier tokens. They exist so a theme can move a decision that would otherwise be hard-coded in the recipe. Values may reference the tone variables the recipe sets (--btn-*), which resolve per instance through the cascade.",
+    "secondary": {
+      "bg": {
+        "$value": "var(--collie-color-canvas)",
+        "$description": "outline by default; a theme can point this at var(--btn-subtle) for a tonal fill"
+      },
+      "border": {
+        "$value": "var(--btn-border)"
+      },
+      "fg": {
+        "$value": "var(--btn-fg)"
+      },
+      "shadow": {
+        "$value": "var(--collie-shadow-raised)"
+      }
+    }
+  }
+}

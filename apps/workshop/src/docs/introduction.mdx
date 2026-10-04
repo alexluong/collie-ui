@@ -1,0 +1,72 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="Introduction" />
+
+# Collie UI
+
+An opinionated experiment: components carry **no styling at all**. They contribute
+structure and behaviour; recipes supply every class string; tokens supply every
+value.
+
+## Three rules
+
+1. **Components contain no styles.** Grep `packages/ui` for a utility class and
+   there are none.
+2. **Recipes name semantic tokens only.** `bg-accent-solid`, never `blue-500`.
+   Tailwind's own scales are switched off in the generated CSS, so `bg-blue-500`
+   and `p-4` do not compile — the build enforces this, not a lint rule.
+3. **State travels as data attributes.** The recipe styles `data-loading`; the
+   component only sets the attribute. New states never change a signature.
+
+## Layers
+
+```
+packages/tokens       DTCG source → CSS custom properties + Tailwind @theme
+packages/recipes-tw   every class string, as slot recipes. No React
+packages/ui           React components. No class strings
+```
+
+Dependencies run one way: `tokens ← recipes-tw ← ui`.
+
+## Two axes, no visual vocabulary
+
+Buttons take `emphasis` (how loud) and `tone` (what it means) — never
+`solid`/`outline`/`ghost`. A call site says what it _means_:
+
+```tsx
+<Button emphasis="primary" tone="critical">
+  Delete
+</Button>
+```
+
+If secondary later becomes a tonal fill instead of an outline, no call site
+changes. Internally, `tone` sets component-tier variables and `emphasis` reads
+them, so adding a tone is one line rather than one line per emphasis.
+
+## The goal: app code writes no CSS
+
+Applications compose Collie UI components and nothing else — no utility classes, no
+stylesheets, no Tailwind configuration. Everything an app needs to express should
+be expressible through components, including layout.
+
+That makes the styling engine an implementation detail of the recipes package: what
+compiles the class strings stops being an app-visible decision, and integration is
+one CSS import rather than a Tailwind setup per app.
+
+The cost is that layout has to be a first-class part of the system, not an
+afterthought — until `Stack`, `Inline`, `Columns` and `Box` exist, "no classes in
+app code" just means people are stuck. Those come next.
+
+Until then the guard rail is already in place: the generated CSS drops Tailwind's
+own colour, spacing and radius scales, so even code that does reach for a utility
+can only name a design token. The remaining escape hatch is arbitrary values
+(`p-[13px]`, `bg-[#3b82f6]`), which app code may never use.
+
+## Wireframe is a theme, not a second component set
+
+Switch **Theme → Wireframe** in the toolbar. Radius goes to 0, shadows vanish,
+type goes mono, borders go dashed, colour drains — with no component or recipe
+changing.
+
+It doubles as a conformance test: anything still looking polished in wireframe
+mode has broken rule 1 or 2.

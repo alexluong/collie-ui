@@ -1,0 +1,8 @@
+@import "tailwindcss";
+/* Generated files, imported by relative path: Vite doesn't watch node_modules,
+   so going through the workspace symlink would miss token rebuilds. */
+@import "../../../packages/tokens/dist/tailwind.css";
+
+/* Every class string lives in the recipes package, which Tailwind won't scan on
+   its own. */
+@source "../../../packages/recipes-tw/src";

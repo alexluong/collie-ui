@@ -1,0 +1,21 @@
+{
+  "name": "@collie/tokens",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./theme.css": "./dist/theme.css",
+    "./tailwind.css": "./dist/tailwind.css",
+    "./contract": "./dist/contract.d.ts",
+    "./tokens.json": "./dist/tokens.json",
+    "./primitives.json": "./dist/primitives.json"
+  },
+  "scripts": {
+    "build": "node build.mjs",
+    "watch": "node build.mjs --watch"
+  },
+  "devDependencies": {
+    "@radix-ui/colors": "^3.0.0",
+    "style-dictionary": "^5.5.2"
+  }
+}

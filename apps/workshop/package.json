@@ -1,0 +1,30 @@
+{
+  "name": "@collie/workshop",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "storybook dev --no-open",
+    "build": "storybook build"
+  },
+  "dependencies": {
+    "@collie/format": "workspace:*",
+    "@collie/tokens": "workspace:*",
+    "@collie/ui": "workspace:*",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
+  },
+  "devDependencies": {
+    "@storybook/addon-a11y": "^10.5.10",
+    "@storybook/addon-docs": "^10.5.10",
+    "@storybook/react-vite": "^10.5.10",
+    "@tailwindcss/vite": "^4.3.3",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "@vitejs/plugin-react": "^6.1.0",
+    "remark-gfm": "^4.0.1",
+    "storybook": "^10.5.10",
+    "tailwindcss": "^4.3.3",
+    "vite": "^8.2.2"
+  }
+}

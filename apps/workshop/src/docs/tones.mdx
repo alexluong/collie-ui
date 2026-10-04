@@ -1,0 +1,67 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+import { ToneMatrix } from "./TokenTable";
+
+<Meta title="Foundations/Tones" />
+
+# Tones
+
+A tone is **what something means**, never what colour it is. "Critical" is a rule
+someone can follow; "red" isn't.
+
+<ToneMatrix />
+
+## The set
+
+Current tones, with the framing borrowed from Braid — defined by risk and urgency
+rather than by appearance:
+
+| tone       | when to reach for it                                                                            | risk / urgency |
+| ---------- | ----------------------------------------------------------------------------------------------- | -------------- |
+| `neutral`  | the default. Subtle information, historic or archived detail, actions with no particular weight | none           |
+| `accent`   | the emphasised action or the thing you want chosen                                              | —              |
+| `critical` | errors, failures, destructive actions. "You need to see this"                                   | high / high    |
+| `warning`  | something mid-process or needing attention before it becomes a problem                          | low / low      |
+| `success`  | completion, positive confirmation                                                               | —              |
+
+**Open:** Braid's set is `critical`, `caution`, `positive`, `neutral`, `info`,
+`promote`, and their names are better than ours — `caution` and `positive` describe
+a situation, where `warning` and `success` describe an outcome. Adopting theirs
+would also add `info` (calm guidance from the UI) and `promote` (things being given
+visibility). Not yet decided.
+
+## Not every component gets every tone
+
+A tone palette is system-wide, but each component exposes only the subset that
+makes sense for it. `info` and `promote` are things a Badge or an Alert can be;
+they aren't things an _action_ can be. Button therefore offers fewer tones than a
+status component will.
+
+This is deliberate: uniform tone lists across every component look consistent and
+produce nonsense like a "promote" submit button.
+
+## Getting a brand colour in
+
+Brand enters as a **primitive ramp**, not as a special case. One hex from the
+client, twelve generated steps, and the semantic accent tokens point at it. Every
+component that already understands tones is then correct in that brand, with no
+component changes — which is the whole reason the ramp shape is fixed.
+
+The complication worth planning for: **a brand colour is often not a usable UI
+colour.** Brand palettes are chosen for logos and marketing, and they routinely
+fail contrast at step 9 (solid fills) or step 11 (text). If the only accent is the
+brand hue, you either break accessibility or render the brand wrong.
+
+Braid's answer is to have two accents, and it's the right one:
+
+|                  | what it's for                                                                                                        |
+| ---------------- | -------------------------------------------------------------------------------------------------------------------- |
+| **brand accent** | hero moments, marketing surfaces, the literal brand colour. Used sparingly                                           |
+| **form accent**  | the everyday interactive colour — the emphasised action in a form, focus rings, links. Contrast-safe by construction |
+
+Usually both point at the same ramp. When a brand hue can't carry UI weight, the
+form accent points at a nearby hue that can, and only the brand accent stays
+literally on-brand. Client themes then differ by one or two ramp declarations
+rather than by a pile of per-component overrides.
+
+**Open:** whether to split `accent` into brand and form accents now or when a
+second client actually exists.

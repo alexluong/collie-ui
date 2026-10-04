@@ -1,0 +1,5 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": { "noEmit": true, "composite": false, "allowJs": true },
+  "include": ["build.mjs", "dist/contract.d.ts"]
+}

@@ -1,0 +1,32 @@
+{
+  "$description": "Warm and rounded. Same components, same structure, different temperature — the hotel-style skin.",
+  "$ramps": {
+    "gray": "sand",
+    "blue": "bronze",
+    "red": "tomato",
+    "green": "grass"
+  },
+  "button": {
+    "secondary": {
+      "bg": {
+        "$value": "var(--btn-subtle)",
+        "$description": "tonal fill instead of an outline — the change that looked like it needed a second recipe"
+      },
+      "shadow": { "$value": "none" }
+    }
+  },
+  "radius": {
+    "$type": "dimension",
+    "sm": { "$value": "0.5rem" },
+    "md": { "$value": "0.875rem" }
+  },
+  "font": {
+    "$type": "fontFamily",
+    "sans": { "$value": "Optima, Avenir, Segoe UI, system-ui, sans-serif" }
+  },
+  "shadow": {
+    "$type": "shadow",
+    "raised": { "$value": "0 1px 2px 0 rgba(80, 50, 20, 0.10)" },
+    "overlay": { "$value": "0 18px 50px -12px rgba(80, 50, 20, 0.28)" }
+  }
+}

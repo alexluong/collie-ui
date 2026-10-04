@@ -1,0 +1,73 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+import { TokenTable, ToneMatrix } from "./TokenTable";
+
+<Meta title="Foundations/Semantic tokens" />
+
+# Semantic tokens
+
+Three tiers. Only the middle one is public.
+
+| tier         | example                 | who uses it                                     |
+| ------------ | ----------------------- | ----------------------------------------------- |
+| primitive    | `gray.7`, `blue.9`      | nothing outside `packages/tokens`               |
+| **semantic** | `color.bg.accent.solid` | **recipes — the only tier they may name**       |
+| component    | `--btn-solid`           | one recipe, for a value that varies per variant |
+
+Everything below is generated from `packages/tokens/src/*.tokens.json`. The swatches
+are live: switch **Theme** in the toolbar and they repaint, because they reference
+the same CSS variables the components do.
+
+## Colour, by tone
+
+Each tone is one primitive ramp run through the same step assignments, so adding a
+tone is one ramp plus one mapping — never a per-component decision. The tones
+themselves are documented in **Foundations → Tones**.
+
+<ToneMatrix />
+
+Steps come from Radix's documented scale semantics:
+
+| step | used for                   | semantic name             |
+| ---- | -------------------------- | ------------------------- |
+| 1    | app background             | `bg.canvas`               |
+| 2    | cards, panels              | `bg.surface`              |
+| 3    | component background, rest | `bg.{tone}.subtle`        |
+| 4    | hover                      | `bg.{tone}.subtle-hover`  |
+| 5    | pressed / selected         | `bg.{tone}.subtle-active` |
+| 6    | separators                 | `border.subtle`           |
+| 7    | borders, focus rings       | `border.{tone}`           |
+| 8    | hovered border             | `border.hover`            |
+| 9    | solid fill                 | `bg.{tone}.solid`         |
+| 10   | hovered solid fill         | `bg.{tone}.solid-hover`   |
+| 11   | low-contrast text          | `fg.{tone}`, `fg.muted`   |
+| 12   | high-contrast text         | `fg.default`              |
+
+Nobody types a step number. The mapping is written once and applies to every tone.
+
+## Backgrounds
+
+<TokenTable group="color.bg" />
+
+## Foreground
+
+<TokenTable group="color.fg" />
+
+## Borders
+
+<TokenTable group="color.border" />
+
+## Space
+
+The number is a percentage of the 8px base unit — `space.100` is 8px, `space.200`
+is 16px. Values between existing ones get a number between them (`150`), so the
+scale grows without renaming anything.
+
+Switch **Density** in the toolbar: these change, and no component knows.
+
+<TokenTable group="space" />
+
+## Radius, typography, shadow
+
+<TokenTable group="radius" />
+<TokenTable group="font" />
+<TokenTable group="shadow" />

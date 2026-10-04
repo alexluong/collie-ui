@@ -1,0 +1,62 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+import { TokenTable, TypeScale, WeightScale } from "./TokenTable.js";
+
+<Meta title="Foundations/Typography" />
+
+# Typography
+
+Two components carry every piece of text in the system: `Text` and `Heading`.
+Neither takes a font size in pixels, and app code never sets one.
+
+```tsx
+<Heading level={2}>Tenants</Heading>
+<Text tone="muted">Every workspace on the platform.</Text>
+```
+
+## Why this is a closed set
+
+Until the type scale existed as tokens, Tailwind's own `text-sm` and `font-medium`
+kept resolving — the system looked complete while quietly inheriting a scale
+nobody chose. The size, weight and line-height namespaces are now reset, so only
+the tokens below compile.
+
+## Size
+
+<TypeScale />
+
+`Text` exposes `xs | sm | md | lg`; `Heading` maps `level` onto the larger end of
+the scale so that heading rank and type size stay in step. `xl` and `2xl` exist
+only through `Heading`.
+
+## Weight
+
+<WeightScale />
+
+Three weights, named by job rather than by number: `regular` for body copy,
+`medium` for labels and emphasis, `strong` for headings. A design that wants a
+lighter or heavier face changes the token, not the call sites.
+
+## Line height
+
+<TokenTable group="leading" />
+
+`tight` is for headings, where the type is large enough that generous leading
+looks like a gap. `normal` is everything else.
+
+## Tone
+
+Text colour is a tone, not a colour: `default`, `muted`, and the five status
+tones. Muted is Radix step 11 — still passes contrast on every background in the
+system, unlike an opacity-based muting.
+
+```tsx
+<Text tone="muted">Showing 1–5 of 1,284</Text>
+<Text tone="critical">The card on file expired on 31 July.</Text>
+```
+
+## What is deliberately missing
+
+No letter-spacing, no font-style, no per-call-site line-height override, and no
+second font family beyond `sans` and `mono`. Each of those is a decision the
+theme should own. If a screen genuinely needs one, that is a signal the theme is
+short a token — not that the component is short a prop.

@@ -1,0 +1,8 @@
+{
+  "files": [],
+  "references": [
+    { "path": "./packages/format" },
+    { "path": "./packages/recipes-tw" },
+    { "path": "./packages/ui" }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "$description": "Dark polarity. Points every ramp at its Radix dark counterpart; the semantic layer follows without restating a single colour.",
+  "$ramps": {
+    "gray": "grayDark",
+    "blue": "blueDark",
+    "red": "redDark",
+    "amber": "amberDark",
+    "green": "greenDark"
+  },
+  "color": {
+    "$type": "color",
+    "fg": {
+      "on-warning": {
+        "$value": "{grayDark.1}",
+        "$description": "amber's solid step stays light in the dark ramp, so text on it must go dark — the one colour a polarity flip cannot derive"
+      }
+    },
+    "bg": {
+      "overlay": { "$value": "{blackA.11}" }
+    }
+  },
+  "shadow": {
+    "$type": "shadow",
+    "raised": { "$value": "0 1px 2px 0 rgba(0, 0, 0, 0.4)" },
+    "overlay": { "$value": "0 16px 48px -12px rgba(0, 0, 0, 0.7)" }
+  }
+}

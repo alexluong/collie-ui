@@ -1,0 +1,74 @@
+{
+  "$description": "Overrides token values only — no component or recipe changes.",
+  "color": {
+    "$type": "color",
+    "bg": {
+      "canvas": {
+        "$value": "{gray.1}"
+      },
+      "surface": {
+        "$value": "{gray.1}"
+      },
+      "accent": {
+        "subtle": {
+          "$value": "{gray.3}"
+        },
+        "subtle-hover": {
+          "$value": "{gray.4}"
+        },
+        "subtle-active": {
+          "$value": "{gray.5}"
+        },
+        "solid": {
+          "$value": "{gray.9}"
+        },
+        "solid-hover": {
+          "$value": "{gray.10}"
+        }
+      }
+    },
+    "fg": {
+      "accent": {
+        "$value": "{gray.11}"
+      }
+    },
+    "border": {
+      "accent": {
+        "$value": "{gray.8}"
+      }
+    }
+  },
+  "radius": {
+    "$type": "dimension",
+    "sm": {
+      "$value": "0"
+    },
+    "md": {
+      "$value": "0"
+    },
+    "full": {
+      "$value": "0"
+    }
+  },
+  "font": {
+    "$type": "fontFamily",
+    "sans": {
+      "$value": "ui-monospace, SFMono-Regular, monospace"
+    }
+  },
+  "border-style": {
+    "$type": "strokeStyle",
+    "default": {
+      "$value": "dashed"
+    }
+  },
+  "shadow": {
+    "$type": "shadow",
+    "raised": {
+      "$value": "none"
+    },
+    "overlay": {
+      "$value": "none"
+    }
+  }
+}

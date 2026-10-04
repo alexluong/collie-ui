@@ -1,0 +1,85 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="Guides/Inspirations" />
+
+# Inspirations
+
+What was taken from where, and what was deliberately not.
+
+## Braid — SEEK
+
+The closest relative: same philosophy, different mechanism. Braid compiles themes
+with vanilla-extract; we generate CSS variables from DTCG source. Both make a theme
+a single object that must satisfy a contract.
+
+Taken:
+
+- **Tones defined by risk and urgency**, not by colour
+- **Per-component tone subsets** — the palette is system-wide, the exposure isn't
+- **Two accents** — brand accent for hero moments, form accent for everyday UI
+- **A wireframe theme as a first-class shipped theme**, which they have had for
+  years and which we arrived at independently
+- **The theme contract as a type** — miss a token and it doesn't compile
+
+Not taken:
+
+- **No primitive tier.** Braid themes hand-author every final value, so a new theme
+  is dozens of colour decisions with no guaranteed contrast relationships. Ramps
+  plus fixed step assignments generate all of it from one hue.
+- **Responsive prop objects** (`padding={{ mobile: 'small', tablet: 'large' }}`) —
+  Tailwind's `p-100 md:p-200` is terser and already familiar.
+
+Braid also has things we lack and should copy: `touchableSize`, `contentWidth`,
+`focusRingSize`, and typography defined per breakpoint with Capsize font metrics.
+
+## Radix Colors
+
+The 12-step scale with a **documented job per step**. This is the thing that makes
+"which shade" not a decision: step 9 is the solid fill, step 11 is low-contrast
+text, in every hue. Adopted wholesale.
+
+## Primer — GitHub
+
+Token naming: `--[category]-[role]-[prominence]`, giving `--bgColor-danger-emphasis`
+and `--fgColor-default`. Role-first naming reads correctly at the point of use, and
+"prominence" as a name for the intensity axis is theirs.
+
+Primer keeps state (`rest`/`hover`/`active`) at the component tier and leaves the
+semantic tier stateless — stricter than what we do, and arguably better.
+
+## Atlassian
+
+Spacing named as a percentage of the base unit — `space.100` is 8px — so values
+can be inserted between existing ones without a rename cascade. Also the clearest
+published semantic token documentation of any system surveyed.
+
+## Spectrum 2 — Adobe
+
+Two axes rather than one (`variant` + `style`), and **density as a scale**: the
+same semantic token resolves to different pixel values under a different scale.
+That is where "density is a theme, not a component variant" comes from.
+
+Spectrum's tokens are also published as open data, which makes them the most
+directly adoptable of the large systems.
+
+## Polaris — Shopify
+
+`variant` + `tone` as separate props, one of the few large systems that doesn't mix
+hierarchy and meaning into a single axis.
+
+## shadcn/ui
+
+The distribution model: copy the source into the consuming app and own it, rather
+than depending on a package. Suits a system serving unrelated products that
+genuinely need to diverge.
+
+## Material Design 3
+
+The reference/system/component three-tier token structure, and "high / medium / low
+emphasis" as vocabulary for the hierarchy axis. The visual language is not adopted.
+
+## vanilla-extract
+
+`createThemeContract` — a compile-time guarantee that every theme implements every
+token. Reproduced here by generating a token-name union and asserting it in CI,
+since Tailwind will otherwise fall back silently on a missing variable.

@@ -1,0 +1,86 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="Foundations/Hierarchy" />
+
+# Hierarchy
+
+Tone says what an action _means_. A second axis says how _loud_ it is. Keeping them
+separate is what lets you ask for a primary button that is also destructive —
+a thing single-axis systems can't express.
+
+```tsx
+<Button emphasis="primary" tone="critical">
+  Delete
+</Button>
+```
+
+## Why not solid / outline / ghost
+
+Those are **visual** words, and putting them in an app's call sites hands design
+decisions to the call site. If "secondary" later becomes a tonal fill instead of an
+outline, a system with an `outline` prop has to change every use.
+
+The rule: a component's API should say what something _is_, never what it _looks
+like_.
+
+## How other systems name this axis
+
+Most mix hierarchy and meaning into one prop, which is where `danger` ends up
+sitting next to `primary`:
+
+| system     | prop                       | values                                                                 |
+| ---------- | -------------------------- | ---------------------------------------------------------------------- |
+| Material 3 | —                          | "high / medium / low emphasis" (prose only)                            |
+| Carbon     | `kind`                     | primary, secondary, tertiary, ghost, danger                            |
+| Primer     | `variant`                  | default, primary, danger, invisible                                    |
+| Atlassian  | `appearance`               | default, primary, subtle, warning, danger                              |
+| Fluent 2   | `appearance`               | primary, outline, subtle, transparent                                  |
+| Polaris    | `variant` + `tone`         | primary/secondary/tertiary/plain + critical/success                    |
+| Spectrum 2 | `variant` + `style`        | accent/primary/secondary/negative + fill/outline                       |
+| Braid      | `tone` + `variant`         | brandAccent/formAccent/critical/neutral + solid/ghost/soft/transparent |
+| hokulea    | `intention` + `importance` | action/alternative/highlight/danger + normal/subtle/plain              |
+
+Only the last four separate the axes. Braid keeps visual variant names but carries
+hierarchy through defaults: no tone gives you `neutral` + `ghost`; setting a tone
+switches the default variant to `solid`.
+
+## Open question
+
+The axis name and its values currently disagree — `emphasis` describes visual
+weight, while `primary`/`secondary`/`tertiary` describe rank. Candidates:
+
+- `emphasis: high | medium | low` — axis and values agree, no rank claim, so no
+  argument about whether two "primary" buttons may coexist
+- `importance: primary | secondary | tertiary` — familiar vocabulary, axis honestly
+  describes rank
+- `prominence: bold | subtle | plain` — matches the token vocabulary borrowed from
+  Primer
+
+There is also a real critique that `primary`/`secondary` are deliberately
+meaningless: they state a rank but never say _when_ to use which, so every team
+re-litigates it.
+
+## How it's built
+
+Tone sets component-tier variables; the hierarchy axis reads them. That keeps the
+two axes independent — adding a tone is one declaration, not one per level.
+
+```ts
+critical: "[--btn-solid:var(--collie-color-critical-solid)] …";
+primary: "bg-[var(--btn-solid)] text-[var(--btn-on)] hover:bg-[var(--btn-solid-hover)]";
+```
+
+Tones × levels would otherwise be one hand-written combination each, and they would
+drift.
+
+Every class is written out in full. Tailwind finds utilities by scanning source
+text, so a class assembled by interpolation — `` `[--btn-solid:var(--collie-color-${tone}-solid)]` ``
+— is never generated, and the variable silently stays unset.
+
+## Which tones a component gets
+
+Not every tone belongs on every component. Button takes `neutral | accent |
+critical`, because those are the tones an _action_ can have: proceed, step back,
+destroy. `warning` and `success` describe the state of a thing, not the intent of
+a click — they belong on Badge, on a banner, on a status cell. Both draw from the
+same token set; the component API decides which subset is reachable.

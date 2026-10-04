@@ -1,0 +1,76 @@
+import { Meta, Source } from "@storybook/addon-docs/blocks";
+import midnight from "../../../../packages/tokens/src/theme/midnight.tokens.json?raw";
+import sandstone from "../../../../packages/tokens/src/theme/sandstone.tokens.json?raw";
+
+<Meta title="Foundations/Theming" />
+
+# Theming
+
+A theme is a set of token **values**. It is not a stylesheet, not a component
+override, and not a variant. Nothing in `packages/ui` or `packages/recipes-tw`
+knows a theme exists — swapping one changes what `--collie-*` resolves to, and
+every component follows because that is the only vocabulary they speak.
+
+Four ship today: **Polished** (the default), **Midnight**, **Sandstone** and
+**Wireframe**. Compare them under [Foundations → Themes](?path=/story/foundations-themes--side-by-side).
+
+## A dark theme, in full
+
+This is the entire file. Not an excerpt.
+
+<Source code={midnight} language="json" dark />
+
+`$ramps` is the whole trick: it repoints the primitive ramps, and the semantic
+layer is rebuilt against them. `bg.canvas` still says "gray step 1" — it is just
+that gray now means something else. Sixty colour tokens change from five lines.
+
+The one thing a polarity flip cannot derive is at the bottom: amber's solid step
+stays light in the dark ramp, so text sitting on it has to go _dark_ while every
+other `on-*` colour goes light. That is real design information, and the theme is
+the right place for it.
+
+## A warm theme, in full
+
+<Source code={sandstone} language="json" dark />
+
+Same mechanism, different intent: warm ramps instead of neutral ones, rounder
+corners, a humanist face, and a shadow tinted brown rather than black. This is
+what "the hotel app and the ENABLE app share a design system" actually looks
+like — one file each, no forked components.
+
+## What a theme may change
+
+| Can change                                                                   | Cannot change                     |
+| ---------------------------------------------------------------------------- | --------------------------------- |
+| Any primitive ramp (`$ramps`)                                                | Which slots a component renders   |
+| Any semantic token: colour, radius, font, shadow, border width **and style** | Layout structure, spacing _rules_ |
+| Its own `$description`                                                       | Anything a recipe hard-codes      |
+
+Wireframe is the proof of how far that reaches: it is square, dashed, grey and
+monospace, and it does it entirely through `radius`, `border-style`, `font.sans`
+and the accent ramp. If a theme ever _cannot_ express something, that is a
+missing token, not a missing prop.
+
+## Density is a separate axis
+
+Spacing lives under `src/density/`, applied with `data-density`, and composes
+with any theme — Midnight compact, Sandstone comfortable, whatever. It is
+separate because "which brand is this" and "how much information fits on screen"
+are different questions, and one app often wants both answers at once.
+
+## Adding one
+
+1. Drop `packages/tokens/src/theme/<name>.tokens.json` in.
+2. That is it. The build discovers the file, emits a `[data-theme="<name>"]`
+   block, and the watcher picks it up while the dev server is running.
+
+## Setting one
+
+```tsx
+document.documentElement.dataset.theme = "midnight";
+```
+
+**On the document root**, not on a wrapper. Dialogs, drawers and menus portal to
+`<body>`; a theme applied to a wrapper `<div>` silently stops at the first modal.
+(A subtree _can_ carry its own theme — that is how the side-by-side gallery
+works — but that is a documentation trick, not how an app should ship.)

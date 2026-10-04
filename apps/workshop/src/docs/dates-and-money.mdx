@@ -1,0 +1,80 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="Foundations/Dates & money" />
+
+# Dates & money
+
+Two value types cause more bugs than the rest of a back-office app combined, so
+the system takes a position on both and enforces it at the API boundary.
+
+## An instant is a string, and a zone is separate
+
+```ts
+type Instant = string; // ISO 8601, always with an offset — "2026-08-23T13:05:00Z"
+type TimeZone = string; // IANA identifier — "Asia/Ho_Chi_Minh"
+```
+
+**No `Date` object crosses a component boundary.** A `Date` is an instant that
+silently carries the _viewer's_ zone whenever you format it, and there is no way
+to look at one and tell a correctly-zoned value from an accidentally-local one.
+By the time that difference shows up, it shows up as an order stamped on the
+wrong day.
+
+So `formatDateTime` takes the zone as a required argument. There is no default,
+because the default anyone would pick — the browser's zone — is exactly the
+assumption that breaks for a team spread across two countries.
+
+```tsx
+<Text>{formatDateTime(order.placed, { timeZone })}</Text>
+```
+
+### Wall clock in, instant out
+
+A form field reads a wall clock: someone types `2026-08-23T09:00` meaning _nine
+in the morning where I am_. `zonedToInstant` turns that into the instant it
+names, with two passes so the offset is right across a DST boundary:
+
+```ts
+zonedToInstant("2026-08-23T09:00", "America/Detroit"); // 13:00Z, EDT
+zonedToInstant("2026-01-15T09:00", "America/Detroit"); // 14:00Z, EST
+```
+
+On the fall-back night one wall clock reading happens twice. We take the first
+occurrence. That is a choice, not a law — but it is written down here rather than
+left to whichever branch the code happens to hit.
+
+## A time range stays described until it is resolved
+
+The time range picker hands back a _description_, not a window:
+
+```ts
+{ kind: "relative", amount: 6, unit: "hour" }
+{ kind: "absolute", start: "2026-08-20T00:00:00Z", end: "2026-08-23T00:00:00Z" }
+{ kind: "around", at: "2026-08-23T13:05:00Z", amount: 30, unit: "minute" }
+```
+
+"Last 6 hours" asked twice should mean two different windows. Freezing it into a
+start and end at pick time makes a saved view quietly wrong the next morning —
+which is why `resolveTimeRange(range, now)` takes the clock as an argument
+instead of reading it.
+
+That also makes every screen using a range deterministic to render: pass a fixed
+`now`, get a fixed screen.
+
+## Money is an integer
+
+```ts
+formatCurrency(112050, "USD"); // "$1,120.50"
+formatCurrency(4821, "JPY"); // "¥4,821"
+```
+
+Minor units, never a float — `0.1 + 0.2` is not `0.3`, and a rounding error in a
+refund is a real one. How many minor units make a major unit comes from the
+currency itself through `Intl`, so JPY (zero decimals) and KWD (three) are right
+without a lookup table of our own.
+
+## Where this lives
+
+`@collie/format` — no React, no Tailwind, no tokens. It is the one package a
+non-React target could use unchanged, and it is pure enough to test without a
+renderer.

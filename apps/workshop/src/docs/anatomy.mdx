@@ -1,0 +1,71 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="Guides/Anatomy" />
+
+# Anatomy
+
+Every component is broken into named parts. The parts are the public API of the
+styling layer — a recipe supplies one class string per part, and the component
+wires them to elements.
+
+```
+Button       root, icon
+Field        root, label, control, description, error
+DatePicker   root, field, segment, trigger, popup, calendar,
+             header, nav, grid, weekday, cell, day
+```
+
+```ts
+export const button = tv({
+  slots: {
+    root: "…",
+    icon: "…",
+  },
+});
+```
+
+```tsx
+const slots = button({ emphasis, tone, size });
+<button className={slots.root()}>
+  <span className={slots.icon()}>…</span>
+</button>;
+```
+
+## When a part exists
+
+A part is worth naming when it can be styled independently **and** something
+plausibly would. A twelve-part component nobody restyles is pure tax — the cost of
+a part is paid on every theme, every skin, and every future variant.
+
+## Layout-bearing parts
+
+Some parts carry structure rather than decoration — `display: grid`,
+`grid-cols-7`, `gap`. These are load-bearing: a theme that drops them doesn't look
+different, it breaks. Parts that own layout are documented as such, and any
+alternative styling must honour that contract.
+
+## State never crosses the boundary
+
+Recipes style state through data attributes; components only set them.
+
+```
+✓  cell: "data-[selected]:bg-accent-solid data-[disabled]:opacity-40"
+✗  cell({ isSelected, isDisabled })
+```
+
+Only design variants — tone, hierarchy, size, density — are passed into a recipe.
+This is what keeps the recipe layer free of React, and it means adding a state
+never changes a component's signature.
+
+Base UI emits `data-disabled`, `data-selected`, `data-highlighted`, `data-open`,
+`data-checked` already, so behavioural components get this for free.
+
+## Why this matters more than it looks
+
+Because components hold no styles, the anatomy _is_ the component as far as
+theming is concerned. Two consequences:
+
+- A skin can restyle anything the anatomy exposes, and nothing it doesn't.
+- Anatomy documentation must be generated from the recipe's slot definitions
+  rather than hand-written, or it silently drifts from the code — the failure mode
+  that kills design system documentation.

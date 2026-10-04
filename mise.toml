@@ -1,0 +1,59 @@
+# Collie UI — local dev tooling.
+#
+# Ports are per-worktree so several checkouts can run side by side without
+# collisions. `mise run setup` writes a gitignored .env with a PORT_BASE derived
+# from this worktree's directory name; edit it if you want a specific range.
+
+[tools]
+node = "22.22.0"
+pnpm = "11.20.0"
+
+[env]
+_.file = { path = ".env", required = false }
+
+[tasks.setup]
+description = "Install deps and assign this worktree's dev ports"
+run = ["node scripts/setup-env.mjs", "pnpm install"]
+
+[tasks.tokens]
+description = "Build design tokens (DTCG -> css/ts)"
+run = "pnpm --filter @collie/tokens build"
+
+[tasks."tokens:watch"]
+description = "Rebuild tokens whenever the DTCG source changes"
+run = "pnpm --filter @collie/tokens watch"
+
+[tasks.storybook]
+description = "Component workshop"
+depends = ["tokens"]
+run = "pnpm --filter @collie/workshop dev --port ${PORT_STORYBOOK:-6006}"
+
+[tasks.playroom]
+description = "Composition sandbox — every theme side by side"
+depends = ["tokens"]
+run = "pnpm --filter @collie/playroom dev"
+
+[tasks.dev]
+description = "Run every dev surface for this worktree (tokens rebuild on change)"
+run = "mise run tokens:watch ::: storybook ::: playroom"
+
+[tasks.smoke]
+description = "Server-render every POC screen to catch runtime breakage"
+depends = ["tokens"]
+run = "pnpm --filter @collie/workshop exec node scripts/smoke.mjs"
+
+[tasks.fix]
+description = "Apply every autofix (writes files)"
+run = ["pnpm prettier --write .", "pnpm eslint . --fix"]
+
+[tasks.check]
+description = "Verify everything (writes nothing)"
+run = [
+  "pnpm prettier --check .",
+  "pnpm eslint .",
+  "pnpm tsc --build",
+  # Apps aren't project references (they emit nothing), so typecheck them directly.
+  "pnpm --filter @collie/workshop exec tsc --noEmit -p tsconfig.json",
+  "pnpm --filter @collie/playroom exec tsc --noEmit -p tsconfig.json",
+  "mise run smoke",
+]
