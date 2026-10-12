@@ -3,8 +3,8 @@
 An opinionated experiment in design systems: components that carry **no styling at
 all**, styled entirely by recipes, themed entirely by tokens.
 
-The written rationale (tokens, tones, hierarchy, theming, inspirations) lives in
-Storybook under **Introduction**, **Foundations** and **Guides** — start there.
+The reasoning lives in Storybook: **Guides → Decisions** for why it is built this
+way, then **Introduction** and **Foundations** for how it works.
 
 ## The shape of it
 
