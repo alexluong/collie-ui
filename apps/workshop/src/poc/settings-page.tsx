@@ -69,16 +69,16 @@ export function SettingsPage() {
             <Stack space="200">
               <Columns space="200" collapseBelow="sm">
                 <Column>
-                  <TextField label="First name" defaultValue="Alex" />
+                  <TextField label="First name" defaultValue="Jane" />
                 </Column>
                 <Column>
-                  <TextField label="Last name" defaultValue="Luong" />
+                  <TextField label="Last name" defaultValue="Doe" />
                 </Column>
               </Columns>
               <TextField
                 label="Email"
                 type="email"
-                defaultValue="alex@example.com"
+                defaultValue="jane@example.com"
                 description="Used for sign-in and notifications."
               />
               <TextAreaField label="Bio" placeholder="A sentence or two." />

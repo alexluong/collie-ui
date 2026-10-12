@@ -54,10 +54,10 @@ compiles the class strings stops being an app-visible decision, and integration 
 one CSS import rather than a Tailwind setup per app.
 
 The cost is that layout has to be a first-class part of the system, not an
-afterthought — until `Stack`, `Inline`, `Columns` and `Box` exist, "no classes in
-app code" just means people are stuck. Those come next.
+afterthought — without `Stack`, `Inline`, `Columns` and `Box`, "no classes in app
+code" just means people are stuck. Those exist now; see **Primitives → Layout**.
 
-Until then the guard rail is already in place: the generated CSS drops Tailwind's
+The guard rail backs this up: the generated CSS drops Tailwind's
 own colour, spacing and radius scales, so even code that does reach for a utility
 can only name a design token. The remaining escape hatch is arbitrary values
 (`p-[13px]`, `bg-[#3b82f6]`), which app code may never use.

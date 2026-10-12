@@ -3,8 +3,8 @@
 An opinionated experiment in design systems: components that carry **no styling at
 all**, styled entirely by recipes, themed entirely by tokens.
 
-Notes, decisions and rationale live in the ctrl repo at
-`ctrl/docs/projects/collie-ui/` — this repo is code.
+The written rationale (tokens, tones, hierarchy, theming, inspirations) lives in
+Storybook under **Introduction**, **Foundations** and **Guides** — start there.
 
 ## The shape of it
 
@@ -12,7 +12,9 @@ Notes, decisions and rationale live in the ctrl repo at
 packages/tokens       DTCG token source -> CSS custom properties, Tailwind @theme, a contract
 packages/recipes-tw   every class string, as slot recipes. No React, no framework
 packages/ui           React components. No class strings, no styling decisions
+packages/format       dates, numbers, money and time ranges. No React
 apps/workshop         Storybook
+apps/playroom         Playroom
 ```
 
 Dependencies run one way only: `tokens <- recipes-tw <- ui`. Nothing points back.
@@ -67,7 +69,7 @@ they won't fight over a port.
 ```
 PORT_BASE=6530        # 10 ports reserved for this worktree
 PORT_STORYBOOK=6530
-PORT_PLAYROOM=6531    # reserved; nothing listens there yet
+PORT_PLAYROOM=6531
 ```
 
 `PORT_BASE` is seeded by hashing the worktree's directory name — so it's the same
@@ -89,6 +91,7 @@ but it isn't instant).
 | `mise run setup`     | assign ports, install dependencies                         |
 | `mise run tokens`    | rebuild tokens (`packages/tokens/dist/`)                   |
 | `mise run storybook` | component workshop on this worktree's port                 |
+| `mise run playroom`  | composition sandbox on this worktree's port                |
 | `mise run dev`       | everything above                                           |
 | `mise run fix`       | apply every autofix — **writes files**                     |
 | `mise run check`     | verify everything — **writes nothing** (what CI would run) |
@@ -101,8 +104,9 @@ Token output under `packages/tokens/dist/` is generated and gitignored — run
 
 ## Not here yet
 
-A Panda CSS recipe implementation alongside the Tailwind one, and every component
-that isn't Button.
+A Panda CSS recipe implementation alongside the Tailwind one, and most components:
+so far there are Button, Badge, Field, Tabs, Overlay, Table, Text, Media,
+TimeRange and the layout primitives (Stack, Inline, Columns, Box).
 
 Two of the three rules no longer need a lint rule: the generated CSS drops
 Tailwind's own colour, spacing and radius scales, so `bg-blue-500` and `p-4` don't
