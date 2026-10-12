@@ -1,4 +1,4 @@
-// Renders every POC screen through Vite's SSR pipeline. Not a test suite — it
+// Renders every POC screen (and the Decisions page) through Vite's SSR pipeline. Not a test suite — it
 // catches the class of breakage typechecking cannot see (a hook called wrong, a
 // component that throws on first render) until Storybook Test is set up.
 import { createServer } from "vite";
@@ -19,6 +19,7 @@ const pages = [
   ["integrations.js", "Integrations"],
   ["order-list.js", "OrderList"],
   ["settings-page.js", "SettingsPage"],
+  ["../decisions/decisions.js", "Decisions"],
 ];
 
 let failed = 0;
